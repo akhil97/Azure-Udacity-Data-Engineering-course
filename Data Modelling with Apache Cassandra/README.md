@@ -1,51 +1,51 @@
-# Data Modeling with Apache Cassandra
+# Data Modelling with Apache Cassandra
 
-This project builds a NoSQL data model and ETL pipeline for a music streaming analytics use case using **Apache Cassandra**. The goal is to transform raw event data into query-optimized tables that answer specific business questions for the Sparkify analytics team. [web:24][web:22]
+This project builds a NoSQL data model and ETL pipeline for a music streaming analytics use case using **Apache Cassandra**. The goal is to transform raw event data into query-optimized tables that answer specific business questions for the Sparkify analytics team. 
 
 ## Overview
 
-Sparkify, a music streaming startup, collects user activity data in CSV event logs. The raw files are not structured for analytics, so this project preprocesses the event data, creates a denormalized data model in Apache Cassandra, and loads the transformed records into tables designed around specific read queries. [web:22][web:24]
+Sparkify, a music streaming startup, collects user activity data in CSV event logs. The raw files are not structured for analytics, so this project preprocesses the event data, creates a denormalised data model in Apache Cassandra, and loads the transformed records into tables optimised for specific read queries. 
 
-Unlike relational modeling, Cassandra modeling starts with the queries first. Each table in this project is designed to serve one access pattern efficiently by choosing an appropriate partition key, clustering columns, and primary key. [web:26][web:30]
+Unlike relational modelling, Cassandra modelling starts with the queries first. Each table in this project is designed to serve one access pattern efficiently by choosing an appropriate partition key, clustering columns, and a primary key. 
 
 ## Project goals
 
-- Build an ETL pipeline to read and consolidate raw event CSV files into a clean intermediate dataset. [web:22][web:25]
-- Design Cassandra tables based on business questions rather than normalization rules. [web:26][web:34]
-- Load the transformed records into Apache Cassandra tables. [web:22][web:25]
-- Validate the model by running analytical `SELECT` queries against the target tables. [web:22][web:30]
+- Build an ETL pipeline to read and consolidate raw event CSV files into a clean intermediate dataset. 
+- Design Cassandra tables based on business questions rather than normalization rules. 
+- Load the transformed records into Apache Cassandra tables. 
+- Validate the model by running analytical `SELECT` queries against the target tables. 
 
 ## Business questions
 
 This project is typically designed to answer three core questions from the Sparkify event data:
 
-1. What song, artist, and length were played during a given session and item order? [web:23][web:34]
-2. What songs were played by a specific user in a given session? [web:23][web:34]
-3. Which users listened to a particular song? [web:23][web:34]
+1. What song, artist, and length were played during a given session and item order? 
+2. What songs were played by a specific user in a given session? 
+3. Which users listened to a particular song? 
 
-These questions drive the table design, which is the central idea in Cassandra data modeling. [web:26][web:30]
+These questions drive the table design, which is the central idea in Cassandra data modelling. 
 
 ## Architecture
 
 The pipeline follows these stages:
 
-1. Read all raw event CSV files from the source directory. [web:22][web:25]
-2. Combine and clean the records into a single denormalized dataset. [web:22][web:25]
-3. Connect to a local Apache Cassandra cluster and create a keyspace. [web:25]
-4. Create query-specific Cassandra tables with the right primary-key design. [web:25][web:26]
-5. Insert records from the transformed dataset into the target tables. [web:22][web:25]
-6. Run validation queries to confirm the model returns the expected results. [web:22][web:30]
+1. Read all raw event CSV files from the source directory. 
+2. Combine and clean the records into a single denormalized dataset. 
+3. Connect to a local Apache Cassandra cluster and create a keyspace. 
+4. Create query-specific Cassandra tables with the right primary-key design. 
+5. Insert records from the transformed dataset into the target tables. 
+6. Run validation queries to confirm the model returns the expected results.
 
 ## Data modeling approach
 
-Apache Cassandra is optimized for fast reads at scale, so the schema is designed around the exact queries the application needs to support. Instead of normalizing data into many related tables, this project denormalizes the event data into multiple purpose-built tables. [web:26][web:30]
+Apache Cassandra is optimized for fast reads at scale, so the schema is designed around the exact queries the application needs to support. Instead of normalizing data into many related tables, this project denormalizes the event data into multiple purpose-built tables. 
 
 A strong Cassandra model depends on:
 
-- Choosing a partition key that distributes data well. [web:26]
-- Using clustering columns to support sorting and filtering within a partition. [web:26]
-- Avoiding joins and designing each table for a single access pattern. [web:30]
-- Accepting controlled data duplication in exchange for query performance. [web:26][web:30]
+- Choosing a partition key that distributes data well. 
+- Using clustering columns to support sorting and filtering within a partition. 
+- Avoiding joins and designing each table for a single access pattern.
+- Accepting controlled data duplication in exchange for query performance.
 
 ## Project structure
 
@@ -59,7 +59,7 @@ Data Modelling with Apache Cassandra/
 └── README.md
 ```
 
-This layout matches the common structure used in Udacity Cassandra projects, where raw event files are first consolidated into a single CSV that is easier to load into Cassandra. [web:22][web:23]
+This layout matches the common structure used in Udacity Cassandra projects, where raw event files are first consolidated into a single CSV that is easier to load into Cassandra.
 
 ## Technologies used
 
@@ -69,7 +69,7 @@ This layout matches the common structure used in Udacity Cassandra projects, whe
 - Jupyter Notebook
 - CSV / file-based ETL
 
-These tools are consistent with Udacity’s Cassandra project requirements and the common implementations used for this assignment. [web:24][web:25]
+These tools are consistent with Udacity’s Cassandra project requirements and the common implementations used for this assignment.
 
 ## How to run
 
@@ -90,7 +90,7 @@ pip install cassandra-driver
 
 ### 2. Start Cassandra
 
-Start your local Cassandra instance before running the notebook. The project typically assumes Cassandra is available on `127.0.0.1` or `localhost`. [web:25]
+Start your local Cassandra instance before running the notebook. The project typically assumes Cassandra is available on `127.0.0.1` or `localhost`.
 
 ### 3. Run the notebook
 
@@ -112,44 +112,44 @@ The notebook will generally:
 - Create the intermediate CSV file.
 - Create the keyspace and tables.
 - Insert data into Cassandra.
-- Execute test queries to verify correctness. [web:22][web:23][web:25]
+- Execute test queries to verify correctness. 
 
 ## Example table design rationale
 
-The main design principle in this project is that each table exists to answer one query efficiently. For example, if the business asks for songs played in a session ordered by item number, the table must use session-related fields in the key so the query can be served without scanning unrelated data. [web:26][web:30]
+The main design principle in this project is that each table exists to answer one query efficiently. For example, if the business asks for songs played in a session ordered by item number, the table must use session-related fields in the key so the query can be served without scanning unrelated data. 
 
-This is very different from relational design, where the focus is often reducing redundancy. In Cassandra, denormalization is expected because it supports predictable, low-latency reads for known access patterns. [web:26]
+This is very different from relational design, where the focus is often on reducing redundancy. In Cassandra, denormalization is expected because it supports predictable, low-latency reads for known access patterns. 
 
 ## Validation
 
 The project is complete when:
 
-- The ETL pipeline successfully reads all source event files. [web:22][web:25]
-- The transformed dataset is created correctly. [web:22]
-- Cassandra tables are created without errors. [web:25]
-- Records are inserted into each table. [web:25]
-- The required validation queries return the expected results. [web:23][web:30]
+- The ETL pipeline successfully reads all source event files. 
+- The transformed dataset is created correctly. 
+- Cassandra tables are created without errors. 
+- Records are inserted into each table. 
+- The required validation queries return the expected results. 
 
 ## Learning outcomes
 
 This project demonstrates:
 
-- Query-first NoSQL data modeling. [web:24][web:26]
-- ETL pipeline construction with Python. [web:22][web:25]
-- Practical use of partition keys and clustering columns in Cassandra. [web:26]
-- Denormalized schema design for analytical access patterns. [web:30]
-- End-to-end loading and validation of event-stream data into a NoSQL database. [web:22][web:24]
+- Query-first NoSQL data modelling.
+- ETL pipeline construction with Python. 
+- Practical use of partition keys and clustering columns in Cassandra. 
+- Denormalized schema design for analytical access patterns. 
+- End-to-end loading and validation of event-stream data into a NoSQL database. 
 
 ## Future improvements
 
 Possible enhancements include:
 
 - Refactoring the notebook logic into reusable Python modules.
-- Adding Docker-based local Cassandra setup for easier reproducibility. [web:30]
+- Adding Docker-based local Cassandra setup for easier reproducibility.
 - Adding automated tests for row counts and query outputs.
 - Parameterizing file paths and Cassandra connection settings.
 - Extending the project with orchestration or containerized development workflows.
 
 ## Acknowledgments
 
-This project follows the Apache Cassandra data modeling assignment pattern used in Udacity’s Data Engineering curriculum, where event data for a music streaming application is modeled into query-driven NoSQL tables. [web:24][web:28]
+This project follows the Apache Cassandra data modelling assignment pattern used in Udacity’s Data Engineering curriculum, where event data for a music streaming application is modelled into query-driven NoSQL tables. 
