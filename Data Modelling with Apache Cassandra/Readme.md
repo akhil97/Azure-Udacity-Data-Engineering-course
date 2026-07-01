@@ -1,14 +1,14 @@
 '''Data Modelling with Apache Cassandra'''
 This project builds a NoSQL data model and ETL pipeline for a music streaming analytics use case using Apache Cassandra. The goal is to transform raw event data into query-optimized tables that answer specific business questions for the Sparkify analytics team.
 Overview
-Sparkify, a music streaming startup, collects user activity data in CSV event logs. The raw files are not structured for analytics, so this project preprocesses the event data, creates a denormalised data model in Apache Cassandra, and loads the transformed records into tables optimised for specific read queries.[github +1]
+Sparkify, a music streaming startup, collects user activity data in CSV event logs. The raw files are not structured for analytics, so this project preprocesses the event data, creates a denormalised data model in Apache Cassandra, and loads the transformed records into tables optimised for specific read queries.
 Unlike relational modelling, Cassandra modelling starts with the queries first. Each table in this project is designed to serve a single access pattern efficiently by choosing an appropriate partition key, clustering columns, and a primary key.
 Project goals
 •	Build an ETL pipeline to read and consolidate raw event CSV files into a clean intermediate dataset.
 •	Design Cassandra tables based on business questions rather than normalization rules.
 •	Load the transformed records into Apache Cassandra tables.
 •	Validate the model by running analytical  SELECT  queries against the target tables.
-'''Business questions'''
+''' Business questions'''
 This project is typically designed to answer three core questions from the Sparkify event data:
 1.	What song, artist, and length were played during a given session and item order?
 2.	What songs were played by a specific user in a given session?
