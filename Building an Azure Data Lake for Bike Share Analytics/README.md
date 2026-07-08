@@ -82,22 +82,6 @@ A practical implementation usually follows this sequence:
 
 This flow reflects the standard Databricks pattern of landing raw files first, transforming them with Spark, and exposing the final data model through Delta tables.
 
-## Suggested repository structure
-
-```text
-Building an Azure Data Lake for Bike Share Analytics/
-│
-├── data/                                   # Raw bike share source files, if included locally
-├── notebooks/                              # Databricks notebooks for load and transformation
-├── sql/                                    # Optional SQL queries for validation or reporting
-├── images/                                 # Architecture, lineage, or star-schema diagrams
-├── __ Load.ipynb                           # Bronze ingestion notebook
-├── bikeshare-transformation Notebook.ipynb # Transformation notebook for Gold/star schema
-└── README.md
-```
-
-Public repositories for this project commonly include separate notebooks for loading and transformation, with naming similar to `__ Load.ipynb` and a transformation notebook for star-schema creation. 
-
 ## How to run
 
 ### 1. Provision Azure Databricks
