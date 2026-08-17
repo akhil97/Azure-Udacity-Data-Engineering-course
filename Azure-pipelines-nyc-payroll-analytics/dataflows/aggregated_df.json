@@ -51,7 +51,7 @@
             ],
             "scriptLines": [
                 "parameters{",
-                "     dataflow_param_fiscalyear as string ('2020')",
+                "     dataflow_param_fiscalyear as integer (2020)",
                 "}",
                 "source(output(",
                 "          FiscalYear as integer,",
@@ -104,7 +104,7 @@
                 "     isolationLevel: 'READ_UNCOMMITTED',",
                 "     format: 'table') ~> source2",
                 "source2, source1 union(byName: true)~> union1",
-                "union1 filter(ERROR_FUNCTION('')) ~> filter1",
+                "union1 filter(toInteger(FiscalYear) >= $dataflow_param_fiscalyear) ~> filter1",
                 "filter1 derive(TotalPaid = RegularGrossPaid + TotalOTPaid+TotalOtherPay) ~> TotalPaid",
                 "TotalPaid aggregate(groupBy(AgencyName,",
                 "          FiscalYear),",
