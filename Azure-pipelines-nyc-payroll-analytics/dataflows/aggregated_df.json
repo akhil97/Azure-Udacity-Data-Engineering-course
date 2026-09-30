@@ -1,5 +1,5 @@
 {
-    "name": "aggregated_df",
+    "name": "Dataflow Summary",
     "properties": {
         "type": "MappingDataFlow",
         "typeProperties": {
@@ -43,7 +43,7 @@
                     "name": "filter1"
                 },
                 {
-                    "name": "TotalPaid"
+                    "name": "derivedColumn1"
                 },
                 {
                     "name": "aggregate1"
@@ -103,10 +103,10 @@
                 "     validateSchema: false,",
                 "     isolationLevel: 'READ_UNCOMMITTED',",
                 "     format: 'table') ~> source2",
-                "source2, source1 union(byName: true)~> union1",
+                "source1, source2 union(byName: true)~> union1",
                 "union1 filter(toInteger(FiscalYear) >= $dataflow_param_fiscalyear) ~> filter1",
-                "filter1 derive(TotalPaid = RegularGrossPaid + TotalOTPaid+TotalOtherPay) ~> TotalPaid",
-                "TotalPaid aggregate(groupBy(AgencyName,",
+                "filter1 derive(TotalPaid = RegularGrossPaid + TotalOTPaid+TotalOtherPay) ~> derivedColumn1",
+                "derivedColumn1 aggregate(groupBy(AgencyName,",
                 "          FiscalYear),",
                 "     column1 = sum(TotalPaid)) ~> aggregate1",
                 "aggregate1 sink(allowSchemaDrift: true,",
