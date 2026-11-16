@@ -6,7 +6,7 @@
             "sources": [
                 {
                     "dataset": {
-                        "referenceName": "ds_sql_payroll",
+                        "referenceName": "ds_sql_payroll_emp",
                         "type": "DatasetReference"
                     },
                     "name": "source1"
